@@ -1,0 +1,68 @@
+# ------------------------------
+# Build directories (project-specific)
+# ------------------------------
+build/
+build_*/
+
+# ------------------------------
+# CMake generated files
+# ------------------------------
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
+install_manifest.txt
+compile_commands.json
+CTestTestfile.cmake
+
+# Out-of-source generated trees (if any)
+*/CMakeFiles/
+*/CMakeCache.txt
+*/cmake_install.cmake
+*/Makefile
+*/CTestTestfile.cmake
+
+# ------------------------------
+# Build outputs
+# ------------------------------
+bin/
+lib/
+*.o
+*.obj
+*.a
+*.lib
+*.so
+*.so.*
+*.dylib
+*.dll
+*.exe
+*.pdb
+*.idb
+*.ilk
+
+# ------------------------------
+# Visual Studio / MSBuild
+# ------------------------------
+.vs/
+*.user
+*.userosscache
+*.suo
+*.ncb
+*.opendb
+*.VC.db
+*.VC.VC.opendb
+*.tlog
+*.lastbuildstate
+x64/
+
+# ------------------------------
+# Tooling / editor files
+# ------------------------------
+.vscode/
+.idea/
+*.swp
+*.tmp
+
+# ------------------------------
+# Logs
+# ------------------------------
+*.log

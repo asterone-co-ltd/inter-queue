@@ -1,0 +1,16 @@
+/*
+ * Inter-process Queue
+ * SPDX-License-Identifier: MIT
+ * Copyright (c) 2026 ASTERONE Co.Ltd. <https://asterone.co.jp/>
+ */
+#if !defined(_VERSION_HPP_)
+#define _VERSION_HPP_
+
+#include <cstdint>
+#include <string>
+
+namespace IQ
+{
+  constexpr char Version[] = "";
+} /* namespace IQ */
+#endif /* _VERSION_HPP_ */
