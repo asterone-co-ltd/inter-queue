@@ -9,8 +9,7 @@
 #include <cstdarg>
 #include <cstdio>
 
-namespace IQ
-{
+namespace IQ {
 #if defined(IQ_DEBUG_BUILD)
 #define DPRINTF(fmt, ...) IQ::debug_printf(fmt, ##__VA_ARGS__)
 #else
@@ -23,6 +22,6 @@ namespace IQ
 #define EPRINTF(fmt, ...) ((void)0)
 #endif
 
-  void debug_printf(const char* fmt, ...);
+void debug_printf(const char *fmt, ...);
 } // namespace IQ
 #endif /* _DEBUG_HPP_ */

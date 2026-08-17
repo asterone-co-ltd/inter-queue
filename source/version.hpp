@@ -9,8 +9,7 @@
 #include <cstdint>
 #include <string>
 
-namespace IQ
-{
-  constexpr char Version[] = "";
+namespace IQ {
+constexpr char Version[] = "";
 } /* namespace IQ */
 #endif /* _VERSION_HPP_ */

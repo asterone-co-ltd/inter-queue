@@ -13,20 +13,18 @@
 #include <sys/time.h>
 #endif
 
-namespace IQ
-{
-  uint32_t get_build_hash();
+namespace IQ {
+uint32_t get_build_hash();
 
 #if defined(IQ_PLATFORM_LINUX)
-  constexpr int InvalidFD = -1;
+constexpr int InvalidFD = -1;
 
-  inline struct timespec to_timespec(uint32_t tm)
-  {
-    struct timespec ts;
-    ts.tv_sec  = tm / 1000;
-    ts.tv_nsec = (tm % 1000) * 1000000;
-    return ts;
-  }
+inline struct timespec to_timespec(uint32_t tm) {
+  struct timespec ts;
+  ts.tv_sec = tm / 1000;
+  ts.tv_nsec = (tm % 1000) * 1000000;
+  return ts;
+}
 #endif
 } // namespace IQ
 #endif /* _COMMON_HPP_ */

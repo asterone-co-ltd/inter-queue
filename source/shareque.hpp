@@ -13,47 +13,42 @@
 #include <cstdint>
 #include <string>
 
-namespace IQ
-{
-  class ShareQue
-  {
-    mutable ShareMem mem_;
+namespace IQ {
+class ShareQue {
+  mutable ShareMem mem_;
 
-    Semaphore sem_;
+  Semaphore sem_;
 
-    Event evt_;
+  Event evt_;
 
-  public:
-    ShareQue();
+public:
+  ShareQue();
 
-    ~ShareQue();
+  ~ShareQue();
 
-    IQ_RESULT create(const std::string& name, uint64_t size);
+  iq_result_t create(const std::string &name, uint64_t size);
 
-    IQ_RESULT open(const std::string& name);
+  iq_result_t open(const std::string &name);
 
-    void close();
+  void close();
 
-    int push(const void* data, int size, bool drop_old = false);
+  int push(const void *data, int size, bool drop_old = false);
 
-    int pop(void* buff, int size);
+  int pop(void *buff, int size);
 
-    bool is_valid() const
-    {
-      return mem_.is_valid();
-    }
+  bool is_valid() const { return mem_.is_valid(); }
 
-    int size() const;
+  int size() const;
 
-    int count() const;
+  int count() const;
 
-    int remain() const;
+  int remain() const;
 
-    int ref_count() const;
+  int ref_count() const;
 
-    IQ_RESULT wait_for_event(uint32_t tmout);
+  iq_result_t wait_for_event(uint32_t tmout);
 
-    static void clean(const std::string& name);
-  };
+  static void clean(const std::string &name);
+};
 } /* namespace IQ */
 #endif /* _SHAREQUE_HPP_ */

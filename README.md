@@ -99,7 +99,7 @@ int main(void)
 		return 1;
 	}
 
-	IQ_HANDLE h = iq_create("demo-queue", 64 * 1024);
+	iq_handle_t h = iq_create("demo-queue", 64 * 1024);
 	if (h == NULL) {
 		iq_finalize();
 		return 1;
@@ -125,7 +125,7 @@ int main(void)
 		return 1;
 	}
 
-	IQ_HANDLE h = iq_open("demo-queue");
+	iq_handle_t h = iq_open("demo-queue");
 	if (h == NULL) {
 		iq_finalize();
 		return 1;
