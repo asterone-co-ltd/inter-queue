@@ -9,6 +9,7 @@
 #include "interq.h"
 #include <cstdint>
 #include <string>
+#include <sys/types.h>
 
 namespace IQ {
 class ShareMem {
@@ -18,6 +19,10 @@ class ShareMem {
 
   size_t size_;
 
+  dev_t dev_;
+
+  ino_t ino_;
+  
 public:
   ShareMem();
 
@@ -27,7 +32,7 @@ public:
 
   iq_result_t open(const std::string &name);
 
-  void close(bool unlink = false);
+  bool close(bool unlink = false);
 
   bool is_valid() const { return ptr_ != nullptr && size_ > 0; }
 

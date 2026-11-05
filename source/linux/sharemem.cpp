@@ -44,7 +44,7 @@ public:
 };
 } // namespace
 
-ShareMem::ShareMem() : ptr_{nullptr}, size_{0} {
+ShareMem::ShareMem() : ptr_{nullptr}, size_{0}, dev_{0}, ino_{0} {
   DPRINTF(">> ShareMem::ShareMem\n");
 }
 
@@ -71,6 +71,13 @@ iq_result_t ShareMem::create(const std::string &name, uint64_t size) {
   if (ptr_ == MAP_FAILED) {
     return IQ_ERROR;
   }
+
+  struct stat st;
+  if (::fstat(fd, &st) != 0) {
+    return IQ_ERROR;
+  }
+  dev_ = st.st_dev;
+  ino_ = st.st_ino;
   size_ = size;
   name_ = "/" + name + "_mem";
   return IQ_SUCCESS;
@@ -105,22 +112,30 @@ iq_result_t ShareMem::open(const std::string &name) {
   if (ptr_ == MAP_FAILED) {
     return IQ_ERROR;
   }
+  dev_ = st.st_dev;
+  ino_ = st.st_ino;
   size_ = static_cast<size_t>(st.st_size);
   name_ = "/" + name + "_mem";
   return IQ_SUCCESS;
 }
 
-void ShareMem::close(bool unlink) {
+bool ShareMem::close(bool unlink) {
+  bool removed = false;
   if (ptr_ != nullptr && size_ > 0) {
     ::munmap(ptr_, size_);
     ptr_ = nullptr;
     size_ = 0;
-    DPRINTF(">> ShareMem::close\n");
   }
   if (unlink == true && name_.empty() == false) {
-    ::shm_unlink(name_.c_str());
-    DPRINTF(">> ShareMem::unlink\n");
+    /* 名前が今も「自分が開いた実体」を指すときだけ消す */
+    FD fd = ::shm_open(name_.c_str(), O_RDONLY, 0);
+    struct stat st;
+    if (fd != InvalidFD && ::fstat(fd, &st) == 0 &&
+        st.st_dev == dev_ && st.st_ino == ino_) {
+      removed = (::shm_unlink(name_.c_str()) == 0);
+    }
   }
   name_.clear();
+  return removed;
 }
 } /* namespace IQ */

@@ -49,7 +49,7 @@ iq_result_t ShareMem::open(const std::string &name) {
   return IQ_SUCCESS;
 }
 
-void ShareMem::close(bool unlink) {
+bool ShareMem::close(bool unlink) {
   (void)unlink;
   if (ptr_) {
     ::UnmapViewOfFile(ptr_);
@@ -59,6 +59,7 @@ void ShareMem::close(bool unlink) {
     ::CloseHandle(handle_);
     handle_ = nullptr;
   }
+  return unlink;
 }
 
 } /* namespace IQ */

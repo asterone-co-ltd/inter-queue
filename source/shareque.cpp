@@ -182,7 +182,7 @@ void ShareQue::close() {
       unlink = header->references.load(std::memory_order_acquire) == 0;
       DPRINTF("ref = %d\n", header->references.load(std::memory_order_acquire));
     }
-    mem_.close(unlink);
+    unlink = mem_.close(unlink);
     evt_.close();
   }
   sem_.close(unlink);

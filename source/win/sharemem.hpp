@@ -27,7 +27,7 @@ public:
 
   iq_result_t open(const std::string &name);
 
-  void close(bool unlink = false);
+  bool close(bool unlink = false);
 
   bool is_valid() const { return handle_ != nullptr && ptr_ != nullptr; }
 
