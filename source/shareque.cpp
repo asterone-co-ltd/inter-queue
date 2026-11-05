@@ -40,7 +40,7 @@ struct QueHeader {
  */
 uint64_t roundup_pow2(uint64_t x) {
 #if 0
-      return std::bit_ceil(x <= 1 ? 1 : x);
+  return std::bit_ceil(x <= 1 ? 1 : x);
 #else
   if (x <= 1) {
     return 1;
@@ -239,7 +239,7 @@ int ShareQue::push(const void *data, int dsize, bool drop_old) {
   }
   header->wpos.v.store(wpos + static_cast<uint32_t>(dsize),
                        std::memory_order_release);
-
+  std::atomic_thread_fence(std::memory_order_seq_cst);
   /* Notify consumer */
   if (drop_old == true || header->waiters.load(std::memory_order_relaxed) > 0) {
     evt_.set();
@@ -308,9 +308,13 @@ int ShareQue::ref_count() const {
 }
 
 iq_result_t ShareQue::wait_for_event(uint32_t tmout) {
+  auto result = IQ_SUCCESS;
   auto *header = static_cast<QueHeader *>(mem_(0));
   header->waiters.fetch_add(1, std::memory_order_relaxed);
-  auto result = evt_.wait_for_event(tmout);
+  std::atomic_thread_fence(std::memory_order_seq_cst);
+  if (count() <= 0) {
+    result = evt_.wait_for_event(tmout);
+  }
   header->waiters.fetch_sub(1, std::memory_order_relaxed);
   return result;
 }
